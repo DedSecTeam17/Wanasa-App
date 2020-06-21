@@ -1,0 +1,60 @@
+import 'dart:math';
+
+var data = [
+  "Clock_Shower",
+  "Solar_Toilet",
+  "Kitty_Trees",
+  "Crab_Ring",
+  "Toilet_Solar",
+  "Laptop_Plants",
+  "Plus_Trees",
+  "Android_Websites",
+  "Solar_Settings",
+  "System_Shoe",
+  "Android_Video_games",
+  "Robot_Soda",
+  "Toilet_Floppy_Disk",
+  "System_Plants",
+  "Leash_Shower",
+  "Nuclear_Monster",
+  "Kitty_Toolbox",
+  "Mail_Video_games",
+  "Puppy_Ice_cream_cone",
+  "Toolbox_Shelf",
+  "Settings_Mail",
+  "Website_Laptop",
+  "Solar_Plus",
+  "Crab_Solar",
+  "Fence_Android",
+  "Shower_Flowers",
+  "Mail_Plus",
+  "Printer_Rollers",
+  "Kitty_Crab",
+  "Ice_cream_cone_Ice_cream_cone",
+  "Prints_Ice_cream",
+  "Plus_Ring",
+  "Video_games_Floppy_Disk",
+  "Nuclear_Toilet",
+  "Website_Boat",
+  "Male_Plants",
+  "Drugs_Comics",
+  "Horse_Soda",
+  "Ice_cream_cone_Plants",
+  "Websites_Allergies",
+  "Plus_Kitty",
+  "Drugs_Shower",
+  "Ice_cream_Solar",
+  "Video_games_Sink",
+  "Printer_Ice_cream_cone",
+  "Nuclear_Elevator",
+  "Rollers_BBQ",
+  "Websites_Shelf",
+  "Ice_cream_Comics",
+  "Settings_Crab"
+];
+
+class GenerateName {
+  static String getName() {
+    return data[Random().nextInt(data.length)];
+  }
+}

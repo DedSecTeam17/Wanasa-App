@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1050652679035",
+    "firebase_url": "https://practiceapp-d1c04.firebaseio.com",
+    "project_id": "practiceapp-d1c04",
+    "storage_bucket": "practiceapp-d1c04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050652679035:android:069b3aa187ec1f36d1fbde",
+        "android_client_info": {
+          "package_name": "com.example.vedio_calls_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050652679035-frfup4c7dcuosjkirg5d8em0iesajnpa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vedio_calls_app",
+            "certificate_hash": "df77fcc7db4f00342adc8fa0391932a26fc19249"
+          }
+        },
+        {
+          "client_id": "1050652679035-i8aag2t79goq101r6n67vhcngjnugv36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbPhCv4jnVFPbQ8gqL--Z_0tuQUfde6vw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050652679035-i8aag2t79goq101r6n67vhcngjnugv36.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
