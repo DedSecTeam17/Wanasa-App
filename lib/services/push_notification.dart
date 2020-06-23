@@ -15,8 +15,6 @@ class PushNotificationService {
     return _singleton;
   }
 
-  String err_message = "الخدمه غير متوفره حاليا!!";
-
   PushNotificationService.getInstance();
 
   Future<void> push(
@@ -25,6 +23,7 @@ class PushNotificationService {
       @required String title,
       @required String description,
       @required Function action}) async {
+    print(channelName);
     try {
       final response = await http.post(
           "https://firebase-pusher.herokuapp.com/api/notification/push",

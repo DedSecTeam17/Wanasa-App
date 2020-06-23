@@ -1,0 +1,11 @@
+enum SignInStatus {
+  FAIL,
+  SUCCESS_NEW_ACCOUNT,
+  SUCCESS_ALREADY_HAVE_ACCOUNT,
+  SUCCESS_SMS_SENT
+}
+
+enum VerificationStatus {
+  FAIL,
+  SUCCESS_NEW_ACCOUNT,
+}

@@ -3,72 +3,30 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_box/verification_box.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:vedio_calls_app/models/user_model.dart';
 import 'package:vedio_calls_app/services/auth_service.dart';
+import 'package:vedio_calls_app/utils/enums.dart';
 import 'package:vedio_calls_app/utils/router.dart';
 import 'package:vedio_calls_app/widgets/buttons.dart';
 import 'package:vedio_calls_app/widgets/custom_card.dart';
+import 'package:vedio_calls_app/widgets/snack_bar.dart';
 
 import '../all_users_screen.dart';
 
-class SmsCodeVerification extends StatefulWidget {
+import 'package:provider/provider.dart';
+
+class SmsCodeVerification extends StatelessWidget {
   String verId;
   String phoneNumber;
 
   SmsCodeVerification({@required this.verId, @required this.phoneNumber});
 
-  @override
-  _SmsCodeVerificationState createState() => _SmsCodeVerificationState();
-}
-
-class _SmsCodeVerificationState extends State<SmsCodeVerification> {
-  bool _verify = false;
-  String _verificationCode = "";
-
-  Future<void> _loginSMS() async {
-    setState(() {
-      _verify = true;
-    });
-    try {
-      final AuthCredential credential = PhoneAuthProvider.getCredential(
-        verificationId: widget.verId,
-        smsCode: _verificationCode,
-      );
-
-      final FirebaseUser user =
-          (await FirebaseAuth.instance.signInWithCredential(credential)).user;
-      if (user != null) {
-        final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-        String pushNotificationToken = await _firebaseMessaging.getToken();
-        AuthService.getInstance().createUser(user, pushNotificationToken,
-            (isDone, message) {
-          setState(() {
-            _verify = false;
-          });
-          if (isDone) {
-            Router.toWithClear(context, AllUsersScreen());
-          } else {
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
-          }
-        });
-      } else {
-        setState(() {
-          _verify = false;
-        });
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("Invalid Sms code")));
-      }
-    } catch (e) {
-      setState(() {
-        _verify = false;
-      });
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
+  var _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       body: ListView(
         children: <Widget>[
           SizedBox(
@@ -80,7 +38,6 @@ class _SmsCodeVerificationState extends State<SmsCodeVerification> {
                 screen_margin: 10,
                 child: Column(
                   children: <Widget>[
-
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Container(
@@ -88,38 +45,19 @@ class _SmsCodeVerificationState extends State<SmsCodeVerification> {
                         child: VerificationBox(
                           borderRadius: 10,
                           borderWidth: 1,
-                          onSubmitted: (code){
-                            setState(() {
-                              _verificationCode = code;
-                            });
+                          onSubmitted: (code) {
+                            context.read<UserModel>().setVerificationCode(code);
                           },
                           count: 6,
                         ),
                       ),
                     ),
-//
-//                    Padding(
-//                      padding: const EdgeInsets.all(8.0),
-//                      child: VerificationCode(
-//                        keyboardType: TextInputType.number,
-//                        length: 4,
-//                        // clearAll is NOT required, you can delete it
-//                        // takes any widget, so you can implement your design
-//
-//                        onCompleted: (String value) {
-//                          setState(() {
-//                            _verificationCode = value;
-//                          });
-//                        },
-//                        onEditing: (bool value) {},
-//                      ),
-//                    ),
-                    AppBtnWithLoading(
-                      width: MediaQuery.of(context).size.width ,
+                    CustomButton(
+                      width: MediaQuery.of(context).size.width,
                       onTap: () async {
-                        await _loginSMS();
+                        await verify(context);
                       },
-                      child: !_verify
+                      child: !context.watch<UserModel>().isVerifying
                           ? Text(
                               "Next",
                               style: TextStyle(color: Colors.white),
@@ -135,5 +73,18 @@ class _SmsCodeVerificationState extends State<SmsCodeVerification> {
         ],
       ),
     );
+  }
+
+  Future<void> verify(BuildContext context) async {
+    await context.read<UserModel>().doVerification(verId,
+        (executed, message, VerificationStatus status) {
+      switch (status) {
+        case VerificationStatus.FAIL:
+          AppSnackBar.showSnackBar(message: message, key: _key);
+          break;
+        case VerificationStatus.SUCCESS_NEW_ACCOUNT:
+          Router.toWithClear(context, AllUsersScreen());
+      }
+    });
   }
 }

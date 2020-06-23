@@ -5,8 +5,14 @@ import 'package:vedio_calls_app/models/User.dart';
 import 'package:vedio_calls_app/services/auth_service.dart';
 import 'package:vedio_calls_app/services/push_notification.dart';
 import 'package:vedio_calls_app/utils/AppColors.dart';
+import 'package:vedio_calls_app/utils/firebase_notification_handler.dart';
 import 'package:vedio_calls_app/utils/random_name.dart';
+import 'package:vedio_calls_app/utils/router.dart';
 import 'package:vedio_calls_app/widgets/custom_card.dart';
+
+import 'call/call_page.dart';
+import 'call/incoming_call_screen.dart';
+import 'main.dart';
 
 class AllUsersScreen extends StatefulWidget {
   @override
@@ -24,6 +30,21 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   bool _calling = false;
   var _key = GlobalKey<ScaffoldState>();
 
+//
+  bool _validateError = false;
+  bool _video = true;
+  bool _audio = true;
+  bool _screen = false;
+  String _profile = "720p";
+  final String _appId = "fbb98c8ddc4a406caaba86d87125c412";
+
+  final _widthController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _frameRateController = TextEditingController();
+
+  String _codec = "h264";
+  String _mode = "live";
+
   _loadAllUsers() async {
     myPhoneNumber = (await FirebaseAuth.instance.currentUser()).phoneNumber;
     _users = await AuthService.getInstance().getAllUsers();
@@ -37,6 +58,8 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    new FirebaseNotifications().setUpFirebase(context);
+
     _loadAllUsers();
   }
 
@@ -127,18 +150,19 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                               )
                             : CircularProgressIndicator(),
                         onPressed: () {
+                          String channelName = myPhoneNumber +
+                              "_" +
+                              user.phoneNumber +
+                              "_" +
+                              new DateTime.now()
+                                  .millisecondsSinceEpoch
+                                  .toString();
                           setState(() {
                             _selectedPhone = user.phoneNumber;
                           });
                           PushNotificationService.getInstance().push(
                               user: user,
-                              channelName: myPhoneNumber +
-                                  "_" +
-                                  user.phoneNumber +
-                                  "_" +
-                                  new DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString(),
+                              channelName: channelName,
                               title: "$myPhoneNumber call you",
                               description: myPhoneNumber,
                               action: (sent, message) {
@@ -147,6 +171,22 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                                   _calling = false;
                                 });
                                 if (sent) {
+                                  Router.to(
+                                      context,
+                                      CallPage(
+                                        appId:
+                                            "9279f5c1620f4a1f9d7f266a49d7c39d",
+                                        channel: channelName,
+                                        video: _video,
+                                        audio: _audio,
+                                        screen: _screen,
+                                        profile: _profile,
+                                        width: _widthController.text,
+                                        height: _heightController.text,
+                                        framerate: _frameRateController.text,
+                                        codec: _codec,
+                                        mode: _mode,
+                                      ));
 //                                  Scaffold.of(context).showSnackBar(
 //                                      SnackBar(content: Text(message) ,key: _key,));
                                 } else {
