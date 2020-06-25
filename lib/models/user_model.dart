@@ -13,19 +13,20 @@ class UserModel with ChangeNotifier {
   FirebaseUser currentUser;
   String cCode = "+249";
   String _verificationCode = "";
+  String _selectedPhoneNumber = "";
 
 //  state
   bool _isSignIn = false;
   bool _isVerifying = false;
   bool _isLoadUsers = false;
   bool _isPushingNotification = false;
+  bool _loadingCurrentUser = false;
 
-  //  getters
+  String get selectedPhoneNumber => _selectedPhoneNumber; //  getters
 
   bool get isPushingNotification => _isPushingNotification;
 
   bool get isLoadUsers => _isLoadUsers;
-  bool _loadingCurrentUser = true;
 
   bool get loadingCurrentUser => _loadingCurrentUser;
 
@@ -159,24 +160,43 @@ class UserModel with ChangeNotifier {
 * get current user who sign in , session handled by firebase auth lib
 * */
   getCurrentUser() async {
+    _loadingCurrentUser = true;
+    notifyListeners();
     currentUser = await FirebaseAuth.instance.currentUser();
     _loadingCurrentUser = false;
     notifyListeners();
   }
 
-  getAllUsers() {}
+  Future<void> getAllUsers() async {
+    _isLoadUsers = true;
+    notifyListeners();
+    currentUser = await FirebaseAuth.instance.currentUser();
+    _users = await AuthService.getInstance().getAllUsers();
+    _isLoadUsers = false;
+    notifyListeners();
+  }
+
+  setSelectedPhone(String selectedPhone) {
+    this._selectedPhoneNumber = selectedPhone;
+    notifyListeners();
+  }
 
 /*
 * @channelName shared channel between sender and receiver to communicate 
 * @user intended user that we need to push notification for him/here  
 * */
   pushNotification(String channelName, User user, Function onExecuted) {
+    _isPushingNotification = true;
+    _selectedPhoneNumber = "";
+    notifyListeners();
     PushNotificationService.getInstance().push(
         user: user,
         channelName: channelName,
         title: "${currentUser.phoneNumber} call you",
         description: currentUser.phoneNumber,
         action: (sent, message) {
+          _isPushingNotification = false;
+          notifyListeners();
           if (sent) {
             onExecuted(true, message);
           } else {

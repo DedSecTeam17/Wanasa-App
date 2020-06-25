@@ -2,6 +2,7 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:vedio_calls_app/call/call_page.dart';
 import 'package:vedio_calls_app/utils/AppColors.dart';
+import 'package:vedio_calls_app/utils/agora_config.dart';
 import 'package:vedio_calls_app/utils/router.dart';
 import 'package:vedio_calls_app/widgets/buttons.dart';
 
@@ -17,25 +18,6 @@ class IncomingCallScreen extends StatefulWidget {
 }
 
 class _IncomingCallScreenState extends State<IncomingCallScreen> {
-  bool _validateError = false;
-  bool _video = true;
-  bool _audio = true;
-  bool _screen = false;
-  String _profile = "720p";
-  final String _appId = "fbb98c8ddc4a406caaba86d87125c412";
-
-  final _widthController = TextEditingController();
-  final _heightController = TextEditingController();
-  final _frameRateController = TextEditingController();
-
-  String _codec = "h264";
-  String _mode = "live";
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,20 +81,20 @@ class _IncomingCallScreenState extends State<IncomingCallScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: FlatButton(
                   onPressed: () {
-                    Router.to(
+                    Router.toWithReplacement(
                         context,
                         CallPage(
-                          appId: "9279f5c1620f4a1f9d7f266a49d7c39d",
+                          appId: AgoraConfig.appId,
                           channel: widget.channelId,
-                          video: _video,
-                          audio: _audio,
-                          screen: _screen,
-                          profile: _profile,
-                          width: _widthController.text,
-                          height: _heightController.text,
-                          framerate: _frameRateController.text,
-                          codec: _codec,
-                          mode: _mode,
+                          video: AgoraConfig.video,
+                          audio: AgoraConfig.audio,
+                          screen: AgoraConfig.screen,
+                          profile: AgoraConfig.profile,
+                          width: AgoraConfig.widthController.text,
+                          height: AgoraConfig.heightController.text,
+                          framerate: AgoraConfig.frameRateController.text,
+                          codec: AgoraConfig.codec,
+                          mode: AgoraConfig.mode,
                         ));
                   },
                   child: Icon(
