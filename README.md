@@ -5,17 +5,17 @@
 Main features
   - Authentication using firebase auth (OTP authentication)
   - Firebase Firestore to store users data [phone + UID+ push notification token]
-  - Agora to make the user communicate with each other.
+  - Agora to handle video calls .
 
-# Steps to configure application
+# Steps to configure the pp
   - Go to agor.io and sign in then create new project , each project has app ID place this id in porject  [utils/agora_config.dart] file.
    ```dart
       static final String appId = "xxxxxxxxxxxxxxxxxxxxxxxxx";
 
  ```
   - you are free to use my firebase project but if you want to create your own do this :
-     1-clone this repo to help you push notifications https://github.com/DedSecTeam17/Firebase-Pusher
-     2- make sure SHA-1 added to firebase  project because  OTP auth requires it
+     -clone this repo to help you push notifications https://github.com/DedSecTeam17/Firebase-Pusher
+     - make sure SHA-1 added to firebase  project because  OTP auth requires it
   - ok, then you are good to go.
   # Screens
 
