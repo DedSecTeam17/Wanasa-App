@@ -14,7 +14,7 @@ Main features
 
  ```
   - you are free to use my firebase project but if you want to create your own do this :
-     -clone this repo to help you push notifications https://github.com/DedSecTeam17/Firebase-Pusher
+     - clone this repo to help you push notifications https://github.com/DedSecTeam17/Firebase-Pusher
      - make sure SHA-1 added to firebase  project because  OTP auth requires it
   - ok, then you are good to go.
   # Screens
