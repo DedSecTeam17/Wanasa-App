@@ -8,7 +8,7 @@ Main features
   - Agora to handle video calls .
 
 # Steps to configure the pp
-  - Go to agor.io and sign in then create new project , each project has app ID place this id in porject  [utils/agora_config.dart] file.
+  - Go to [agora.io](https://www.agora.io/) and sign in then create new project , each project has app ID place this id in porject  [utils/agora_config.dart] file.
    ```dart
       static final String appId = "xxxxxxxxxxxxxxxxxxxxxxxxx";
 
