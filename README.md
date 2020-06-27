@@ -18,6 +18,10 @@ Main features
      - make sure SHA-1 added to firebase  project because  OTP auth requires it
   - ok, then you are good to go.
   # Screens
+  
+# Todo :
+ - ios configuration
+  
 
 ![Screenshot_1592911559](https://user-images.githubusercontent.com/34925145/85638913-7cde3900-b687-11ea-932f-cb95ec932edf.png)
 ![Screenshot_1592911595](https://user-images.githubusercontent.com/34925145/85638914-7ea7fc80-b687-11ea-8cf9-5c46a9c96b4e.png)
