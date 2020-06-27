@@ -17,10 +17,13 @@ Main features
      - clone this repo to help you push notifications https://github.com/DedSecTeam17/Firebase-Pusher
      - make sure SHA-1 added to firebase  project because  OTP auth requires it
   - ok, then you are good to go.
-  # Screens
+  
   
 # Todo :
- - ios configuration
+ - ios configuration  
+# Screens
+  
+
   
 
 ![Screenshot_1592911559](https://user-images.githubusercontent.com/34925145/85638913-7cde3900-b687-11ea-932f-cb95ec932edf.png)
